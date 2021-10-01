@@ -48,14 +48,12 @@ export default {
       const res = await fetch('http://localhost/api/test01/fetchTasks.php')
 
       const data = await res.json()
-      console.log(data)
+
       return data.tasks
     }
   },
   async created() {
-    this.tasks = this.fetchTasks()
-    // this.tasks.push(this.fetchTasks())
-    console.log('Tasks = ', this.tasks)
+    this.tasks = await this.fetchTasks()
   }
 }
 </script>

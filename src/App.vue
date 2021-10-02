@@ -30,8 +30,20 @@ export default {
     toggleAddTask() {
       this.showAddTask = !this.showAddTask
     },
-    addTask(task) {
-      this.tasks = [...this.tasks, task]
+    async addTask(task) {
+      let url = 'http://localhost/api/test01/addTask.php';
+      let options = {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(task)
+      }
+      const res = await fetch(url, options)
+
+      const data = await res.json()
+
+      this.tasks = [...this.tasks, data]
     },
     deleteTask(id) {
       if (confirm('是否刪除?')) {
@@ -46,11 +58,29 @@ export default {
     async fetchTasks() {
       // const res = await fetch('http://localhost:5001/tasks')
       const res = await fetch('http://localhost/api/test01/fetchTasks.php')
+      // const res = await fetch('api/test01/fetchTasks.php')
 
       const data = await res.json()
 
       return data.tasks
-    }
+    },
+    async fetchTask(id) {
+      // const res = await fetch('http://localhost:5001/tasks')
+      let keydata = {'id': id}
+      let options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(keydata)
+      }
+      const res = await fetch(`http://localhost/api/test01/fetchTasks.php`, options)
+      // const res = await fetch(`api/test01/fetchTasks.php`, options)
+
+      const data = await res.json()
+
+      return data.tasks
+    },    
   },
   async created() {
     this.tasks = await this.fetchTasks()

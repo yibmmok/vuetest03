@@ -51,6 +51,18 @@ export default {
       }
     },
     toggleReminder(id) {
+      let keydata = {'id': id}
+      options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(keydata)        
+      }
+      const res = await fetch('http://localhost/api/test01/vue03_setReminder.php', options)
+
+      const data = await res.json()
+
       this.tasks = this.tasks.map(
         (task) => task.id === id ? {...task, reminder: !task.reminder} : task
       )
